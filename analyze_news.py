@@ -12,9 +12,19 @@ ta = ToneAnalyzerV3(
 def get_analyzed_tone(text):
     return ta.tone(text=text)
 
-def get_():
-    return
+def get_number_of_words(text):
+    return len(text.split())
 
 imported_news = client['news']['imported']
-untranslated = imported_news.find({'text_en': { 'exists': False }})
 
+unanalyzed = imported_news.find({'item.text_en':{ '$exists' : True},'item.words_count':{'$gte':250}, 'item.sentiment': { '$exists': False }})
+for item in unanalyzed:
+    oid = str(item['_id'])
+    print(oid)
+    imported_news.update_one({'_id': oid}, {'$set': {'item.sentiment': get_analyzed_tone(item['item']['fullText'])}}, )
+
+uncounted = imported_news.find({'item.words_count':{ '$exists' : False}})
+for item in uncounted:
+    oid = str(item['_id'])
+    print(oid)
+    imported_news.update_one({'_id': oid}, {'$set': {'item.words_count': get_number_of_words(item['item']['fullText'])}}, )
