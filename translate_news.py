@@ -1,4 +1,5 @@
 import requests as rq
+from bson.objectid import ObjectId
 from pymongo import MongoClient
 from watson_developer_cloud import LanguageTranslatorV2
 
@@ -9,9 +10,10 @@ lt = LanguageTranslatorV2(
     password='3e4s3rliFWmO')
 
 def get_english_news(text):
-    return lt.translate(lt.translate(text, source='de', target='en'))
-
+    return lt.translate(text, source='de', target='en',)
 imported_news = client['news']['imported']
-untranslated = imported_news.find({'text_en': { 'exists': False }})
+untranslated = imported_news.find({'item.text_en': { '$exists': False }})
 for item in untranslated:
-    item
+    oid = str(item['_id'])
+    imported_news.update_one({'_id': oid},{'$set': { 'item.text_en':get_english_news(item['item']['fullText']) }},)
+    print(oid)
