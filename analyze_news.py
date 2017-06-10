@@ -9,9 +9,11 @@ ta = ToneAnalyzerV3(
     password='HE6psH8xRdfj',
     version='2017-06-10')
 
-def get_analyzed_tone():
-    return ta.tone(text='I am very happy')
+def get_analyzed_tone(text):
+    return ta.tone(text=text)
 
+def get_():
+    return
 
 imported_news = client['news']['imported']
 untranslated = imported_news.find({'text_en': { 'exists': False }})
