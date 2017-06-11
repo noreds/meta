@@ -1,4 +1,3 @@
-import requests as rq
 from pymongo import MongoClient
 from watson_developer_cloud import ToneAnalyzerV3
 
@@ -17,11 +16,11 @@ def get_number_of_words(text):
 
 imported_news = client['news']['imported']
 
-unanalyzed = imported_news.find({'item.text_en':{ '$exists' : True},'item.words_count':{'$gte':250}, 'item.sentiment': { '$exists': False }})
+unanalyzed = imported_news.find({'item.text_en':{ '$exists' : True},'item.words_count':{'$gte':250}})
 for item in unanalyzed:
     oid = str(item['_id'])
     print(oid)
-    imported_news.update_one({'_id': oid}, {'$set': {'item.sentiment': get_analyzed_tone(item['item']['fullText'])}}, )
+    imported_news.update_one({'_id': oid}, {'$set': {'item.sentiment': get_analyzed_tone(item['item']['text_en'])}}, )
 
 uncounted = imported_news.find({'item.words_count':{ '$exists' : False}})
 for item in uncounted:
