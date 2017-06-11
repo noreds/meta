@@ -16,7 +16,7 @@ def get_number_of_words(text):
 
 imported_news = client['news']['imported']
 
-unanalyzed = imported_news.find({'item.text_en':{ '$exists' : True},'item.words_count':{'$gte':250}})
+unanalyzed = imported_news.find({'item.text_en':{ '$exists' : True},'item.words_count':{'$gte':250}, 'item.sentiment': { '$exists': False }})
 for item in unanalyzed:
     oid = str(item['_id'])
     print(oid)
