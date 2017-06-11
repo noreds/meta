@@ -8,15 +8,17 @@ ta = ToneAnalyzerV3(
     password='HE6psH8xRdfj',
     version='2017-06-10')
 
+
 def get_analyzed_tone(text):
     return ta.tone(text=text)
+
 
 def get_number_of_words(text):
     return len(text.split())
 
 imported_news = client['news']['imported']
 
-unanalyzed = imported_news.find({'item.text_en':{ '$exists' : True},'item.words_count':{'$gte':250}, 'item.sentiment': { '$exists': False }})
+unanalyzed = imported_news.find({'item.text_en':{ '$exists' : True},'item.words_count':{'$gte':150}, 'item.sentiment': { '$exists': False }})
 for item in unanalyzed:
     oid = str(item['_id'])
     print(oid)
