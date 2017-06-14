@@ -4,7 +4,7 @@ from os import getenv
 import json
 
 settings = json.load('settings.json')
-client = MongoClient('mongodb://mongodb:27017/')
+client = MongoClient('mongodb://'+settings['mongo']['url']+':27017/')
 
 ta = ToneAnalyzerV3(
     username=getenv('WATSON_TONEANALYSIS_USER', settings['Watson']['ToneAnalyzer']['user']),
