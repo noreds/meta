@@ -3,6 +3,10 @@
     "LanguageTranslator": {
       "user": "",
       "password": ""
+    },
+    "ToneAnalyzer": {
+      "user": "",
+      "password": ""
     }
   },
   "AX": {
@@ -10,6 +14,6 @@
     "url": ""
   },
   "mongo": {
-    "url":"mongodb"
+    "url": "mongodb"
   }
 }
