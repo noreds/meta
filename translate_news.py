@@ -1,11 +1,14 @@
 from pymongo import MongoClient
 from watson_developer_cloud import LanguageTranslatorV2
+from os import getenv
+import json
 
-client = MongoClient('mongodb://hans:noooz@52.59.186.178:27017/')
+settings = json.load('settings.json')
+client = MongoClient('mongodb://'+settings['mongo']['url']+':27017/')
 
 lt = LanguageTranslatorV2(
-    username='4b5a619f-245a-49d0-abfd-f72442c90818',
-    password='3e4s3rliFWmO')
+    username=getenv('WATSON_TRANSLATOR_USER', settings['Watson']['LanguageTranslator']['user']),
+    password=getenv('WATSON_TRANSLATOR_PASSWORD', settings['Watson']['LanguageTranslator']['password']))
 
 
 def get_english_news(text):

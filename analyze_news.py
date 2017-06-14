@@ -1,11 +1,14 @@
 from pymongo import MongoClient
 from watson_developer_cloud import ToneAnalyzerV3
+from os import getenv
+import json
 
-client = MongoClient('mongodb://hans:noooz@52.59.186.178:27017/')
+settings = json.load('settings.json')
+client = MongoClient('mongodb://mongodb:27017/')
 
 ta = ToneAnalyzerV3(
-    username='e7331108-319b-4594-a055-0b945418b38e',
-    password='HE6psH8xRdfj',
+    username=getenv('WATSON_TONEANALYSIS_USER', settings['Watson']['ToneAnalyzer']['user']),
+    password=getenv('WATSON_TONEANALYSIS_PASSWORD', settings['Watson']['ToneAnalyzer']['password']),
     version='2017-06-10')
 
 

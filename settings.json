@@ -1,0 +1,15 @@
+{
+  "Watson": {
+    "LanguageTranslator": {
+      "User": "",
+      "Password": ""
+    }
+  },
+  "AX": {
+    "API-Key": "",
+    "url": ""
+  },
+  "mongo": {
+    "url":"mongodb"
+  }
+}
