@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from os import getenv
 import json
-settings = json.load('settings.json')
+settings = json.load(open('settings.json'))
 
 client = MongoClient('mongodb://'+settings['mongo']['url']+':27017/')
 imported_news = client['news']['imported']

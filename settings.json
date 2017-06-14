@@ -1,8 +1,8 @@
 {
   "Watson": {
     "LanguageTranslator": {
-      "User": "",
-      "Password": ""
+      "user": "",
+      "password": ""
     }
   },
   "AX": {

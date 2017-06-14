@@ -3,7 +3,7 @@ from watson_developer_cloud import LanguageTranslatorV2
 from os import getenv
 import json
 
-settings = json.load('settings.json')
+settings = json.load(open('settings.json'))
 client = MongoClient('mongodb://'+settings['mongo']['url']+':27017/')
 
 lt = LanguageTranslatorV2(
