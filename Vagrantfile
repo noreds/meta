@@ -67,10 +67,13 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
    config.vm.provision "shell", inline: <<-SHELL
+     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+     echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-3.4.list
      apt-get update
-     apt-get upgrade
-     apt-get install -y python3 python3-pip python3-dev
-     pip3 install watson-developer-cloud pymongo pandas numpy mongodb-org
+     apt-get upgrade -y
+     apt-get install -y python3 python3-pip python3-dev mongodb-org docker.io
+     pip3 install watson-developer-cloud pymongo pandas numpy
+     gpasswd -a ubuntu docker && systemctl restart docker
    SHELL
 
 

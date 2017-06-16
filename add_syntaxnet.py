@@ -2,17 +2,15 @@ from pymongo import MongoClient
 import json
 import pandas as pd
 import numpy as np
+from subprocess import call, PIPE, Popen, STDOUT
+from io import StringIO
 
-
-
-client = MongoClient('mongodb://mongodb:27017/')
 
 def generate_network(text):
-    fname_in = "example_output.txt"
     fname_out = "example_output.json"
-
-    df = pd.read_csv(fname_in, sep='\t', header=None)
-
+    syntaxtext = Popen(['echo %s | sudo docker run --rm -i  marcobeyer/german-syntaxnet-docker > /home/ubuntu/tmp.txt' % text ], shell=True, stdout=PIPE).stdout.read().decode("utf-8")
+    df = pd.read_csv("/home/ubuntu/tmp.txt", sep='\t', header=None)
+    print(df.head())
     df_words = df[1]
     df_type1 = df[3]
     df_type2 = df[4]
@@ -29,14 +27,19 @@ def generate_network(text):
         sentences.append({"words": words})
 
     data = {"output": {"sentences": sentences}}
+    return data
 
-    with open(fname_out, 'w') as f:
-        return json.dump(data, f)
 
-imported_news = client['news']['imported']
-nonetwork = imported_news.find({'item.syntaxnet': {'$exists': False}})
+def add_networks_to_db():
+    client = MongoClient('mongodb://mongodb:27017/')
+    imported_news = client['news']['imported']
+    nonetwork = imported_news.find({'item.syntaxnet': {'$exists': False}})
 
-for item in nonetwork:
-    oid = str(item['_id'])
-    imported_news.update_one({'_id': oid}, {'$set': {'item.syntaxnet': generate_network(item['item']['fullText'])}}, )
-    print(oid)
+    for item in nonetwork:
+        oid = str(item['_id'])
+        imported_news.update_one({'_id': oid},
+                                 {'$set': {'item.syntaxnet': generate_network(item['item']['fullText'])}}, )
+        print(oid)
+
+if __name__ == "__main__":
+    add_networks_to_db()
