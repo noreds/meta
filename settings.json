@@ -14,6 +14,10 @@
     "url": ""
   },
   "mongo": {
-    "url": "mongodb"
+    "url": "mongodb",
+    "database": "news",
+    "collection": "imported",
+    "user": "",
+    "password": ""
   }
 }
